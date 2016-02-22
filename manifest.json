@@ -1,0 +1,30 @@
+{
+  "name": "Betaloop",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "Betaloop extenshion",
+  "browser_action": {
+    "default_icon": "assets/images/icon.png"
+  },
+  "icons": {
+    "48": "assets/images/icon.png",
+    "16": "assets/images/icon.png",
+    "128": "assets/images/icon.png"
+  },
+  "background": {
+    "scripts": ["assets/js/background.js"]
+  },
+  "permissions": [
+    "tabs",
+    "storage",
+    "<all_urls>",
+    "*://*/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["*://*/*?betaloop=true"], "js": ["assets/js/includes.js"], "css": ["assets/css/includes.css"]
+    }
+  ],
+  "offline_enabled": false,
+  "minimum_chrome_version": "21.0.1180.89"
+}

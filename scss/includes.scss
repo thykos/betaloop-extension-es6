@@ -1,0 +1,253 @@
+@import "variables";
+@import "ui";
+
+$aligns: (left, center, right);
+
+@each $align in $aligns {
+  .betaloop-widget-text-#{$align} {
+    text-align: $align;
+  }
+}
+
+.betaloop-widget-toggle {
+  width: 70px;
+  height: 55px;
+  background: $primary;
+  border-radius: 10px 0 0 10px;
+  cursor: pointer;
+  position: fixed;
+  bottom: 100px;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $white;
+  font-size: 16px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+  animation-name: betaloop-widget-toggle-show;
+  animation-duration: 0.4s;
+  transition: transform 0.4s ease;
+
+  &.hidden {
+    display: none;
+  }
+
+  .betaloop-widget-toggle-icon {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAA/ZJREFUSA21lluITlEUx31jjPttXAdD4zIjIZciIkkeBq/KrZTwqJQHD2qUxAMeeEGSRCKXB0O5RJmEByGMwWQY9zuRGdfj9z/fXqd9zneZRln1+9ba67L3Pt85e53Tps1/liAIBsC4/7xMfHoWLIUGuBKP/MOISQphIBTnKydeAg9B0gxF+fIzYhQUw1I4Aa/gN5h8x7gDW2GEFWP3gVrwZQ2DsdDO8rJqErpAFXyBluQ8CR01EVobvZWn4BuxEYXZViUwCf9xGOji79HVcBoa4CX0hOEwCPakUqkm6rphn4GxkEsOE6jPCFK8ADSJ5BOshfBqMpI9Bzmd4TLkk0MEC7yytIlzFvx0lTfRgzOScjjI3eTqcqnjBDL/YZxl8MFV1aA751hD97FtMoZP9zmXnCKQ/akmcMxVPUb3zTLxFPwH4CX8gTdwBDooF70Psok2FOYk51SRJjWZ4yfgLILdFvT0e+zxbtHp2F+9mJmXMDr588Vsggdd5kU/gC8FR11M6iqsgmkQPvFobdqOXB32XjgLuudd3MaWYsfbJo528BEkixMLr0y7w991/MbuLeNJ8DmMBsF9dIlf7xbVKVHTqYrFcGj3Ej3NPSyIrat9ChKdvZjgmwi24Xps+we6+on4q0AS79c4loTuIHiQKNDVmJQlYuMI6B5LGqBUcXQlHErkyid55ft1rgY4h7qRLxVu8JaupG4VChP0xjgPekk0wkzi+mdGYZ+AZ+DLazdQ/y4k95fG6iL2qDe7BFPm/2wOp3V1vUALaNHHaEk5tAdtzJdwIRxaK3pB6IrtSpMPxlNXPYyddmeBcAPoG4xHE2vE/uJypCY42+osZPN+Ir/JnNrFczcYor/CAuga0L+QgmUQCRPc9RelTmd1kUs4FyWmjeFu/CLmp0ivMevPM/0g/h0g0assbBZ+XDb+ArAG8wPbFgpTGZ8Gya5krYovhKEg2OkH8WlTj1ysGa03lR0bnf/JoL5usi5RrwdKdZJKPxbaOJeFoSDQjof6CYwrQOfUF/Xp774De5tfJxvfdpfzAq0HLy4428I9l1SN1n2NhHEP2ALWpTAjuY41N0p2Br7xoAuRrEjGozHBuWFK+mdjFPAMQnphTIX5oPxYY7FU/P2gEST6DIq1WsuLNAkblOlkM1pPfauEmnKoc3O8Q8duXdbJSFJ/tjeVas/AyKzJCSd5ul3Lwfq33lgzEmm5hyRr8fXwByS/YD/MA+tm0QT4ymA11IJJA8aYKKk1BoWzQd9dvuhheQLX4DbYiwIzFMV19vN+7Le4DyZQc1gIJ8G+PDEzRGd9G8SaR74FYscmXyKT6uNP3Utvs/7wDdQGH9E+69Ctkr88v3zH9P0KZwAAAABJRU5ErkJggg==');
+    background-repeat: no-repeat;
+    background-size: 100%;
+  }
+}
+
+.betaloop-widget-wrapper {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1000000;
+  perspective: 800px;
+  perspective-origin: right;
+  animation-duration: 0.6s;
+  animation-name: betaloop-widget-wrapper-fade-in;
+  transition: background 0.6s ease;
+
+  &.hidden {
+    display: none;
+  }
+
+  &.closing {
+    animation-play-state: running;
+    animation-name: betaloop-widget-wrapper-fade-out;
+
+    .betaloop-widget-mapped-comment-spot {
+      opacity: 0;
+    }
+
+    .betaloop-widget-main-form-wrapper {
+      animation-play-state: running;
+      animation-name: betaloop-hide-form-animation;
+    }
+  }
+
+  .betaloop-widget-backing {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  .betaloop-widget-main-form-wrapper {
+    display: inline-block;
+    position: absolute;
+    width: 370px;
+    height: 340px;
+    bottom: 90px;
+    right: 0;
+    background: $milk;
+    border-radius: 8px 0 0 8px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+    transition: transform 0.4s ease;
+    transform-origin: right;
+    animation-name: betaloop-show-form-animation;
+    animation-duration: 0.4s;
+
+    .betaloop-widget-main-form {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      display: inline-block;
+      position: relative;
+      font-family: 'Arial';
+      //todo change font to Proxima Nova
+
+      .betaloop-widget-main-form-close {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        font-size: 24px;
+        cursor: pointer;
+        color: $very-light-grey;
+
+        &:hover {
+          color: $dark-grey;
+        }
+      }
+
+      .betaloop-widget-main-form-content {
+        padding: 25px 20px 20px 20px;
+
+        .betaloop-widget-main-form-content-header {
+          p {
+            color: $middle-grey;
+            font-size: 14px;
+            margin: 0;
+          }
+        }
+
+        .betaloop-widget-main-form-leave-comment-btn {
+          margin: 20px 0;
+        }
+
+        .betaloop-widget-main-form-textarea-title {
+          color: $middle-grey;
+          font-size: 14px;
+          margin: 0;
+        }
+        .betaloop-widget-main-form-textarea {
+          width: 100%;
+          height: 120px;
+          background: $white;
+          border: 1px solid $very-light-grey;
+          border-radius: 5px;
+          padding: 6px 0;
+          color: $middle-grey;
+          margin-top: 5px;
+          resize: none;
+          transition: box-shadow 0.3s ease;
+          font-size: 14px;
+
+          &:focus {
+            outline: none;
+            box-shadow: 0 0 3px 1px $blue;
+          }
+
+          &::-webkit-input-placeholder {
+            color: $light-grey;
+          }
+        }
+
+        .betaloop-widget-main-form-send-feedback-btn-wrapper {
+          margin-top: 10px;
+        }
+      }
+    }
+  }
+}
+
+.betaloop-widget-mapped-comment-spot {
+  position: absolute;
+  cursor: pointer;
+  border: 7px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  animation-duration: 0.3s;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  animation-name: betaloop-widget-mapped-comment-spot-show;
+
+  .betaloop-widget-mapped-comment-spot-content-wrapper {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: $pink;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .betaloop-widget-mapped-comment-spot-id {
+      color: $white;
+      font-size: 14px;
+    }
+  }
+}
+
+@keyframes betaloop-show-form-animation {
+  from {
+    transform: rotateY(-125deg);
+  }
+  to {
+    transform: rotateY(0deg);
+  }
+}
+
+@keyframes betaloop-hide-form-animation {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(-125deg);
+  }
+}
+
+@keyframes betaloop-widget-wrapper-fade-in {
+  from {
+    background: rgba(0, 0, 0, 0);
+  }
+  to {
+    background: rgba(0, 0, 0, 0.3);
+  }
+}
+
+@keyframes betaloop-widget-wrapper-fade-out {
+  from {
+    background: rgba(0, 0, 0, 0.3);
+  }
+  to {
+    background: rgba(0, 0, 0, 0);
+  }
+}
+
+@keyframes betaloop-widget-toggle-show {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes betaloop-widget-mapped-comment-spot-show {
+  from {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.4);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
